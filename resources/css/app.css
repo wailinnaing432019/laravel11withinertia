@@ -1,3 +1,31 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.swal2-popup-custom {
+  font-family: "Poppins", sans-serif;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.swal2-title-custom {
+  font-size: 24px !important;
+  font-weight: bold;
+  color: #444;
+}
+
+.swal2-confirm-custom {
+  background-color: #ff4d4d !important;
+  font-size: 16px !important;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+.swal2-deny-custom {
+  background-color: #555 !important;
+  font-size: 16px !important;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+

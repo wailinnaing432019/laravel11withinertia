@@ -5,6 +5,7 @@ import { PROJECT_STATUS_CLASS_MAP, PROJECT_STATUS_TEXT_MAP } from "../constant";
 import TextInput from "@/Components/TextInput";
 import SelectInput from "@/Components/SelectInput";
 import TableHeading from "@/Components/TableHeading";
+import Swal from "sweetalert2";
 export default function Index({
   errors,
   auth,
@@ -13,6 +14,24 @@ export default function Index({
   success,
 }) {
   queryParams = queryParams || {};
+  if (success) {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      },
+    });
+
+    Toast.fire({
+      icon: "success",
+      title: `<span style="font-family: 'Poppins', sans-serif; font-size: 12px; color: green;">${success}</span>`,
+    });
+  }
   const searchFieldChanged = (name, value) => {
     if (value) {
       queryParams[name] = value;
@@ -45,10 +64,27 @@ export default function Index({
   };
 
   const deleteProject = (project) => {
-    if (!window.confirm("Are you sure you want to delete this project")) {
-      return;
-    }
-    router.delete(route("project.destroy", project.id));
+    Swal.fire({
+      title: `<span style="font-family: 'Poppins', sans-serif; font-size: 22px; font-weight: bold; color: #333;">Are you sure you want to delete this project?</span>`,
+      html: `<span style="font-family: 'Poppins', sans-serif; font-size: 18px; color: #555;">${project.name}</span>`,
+      showDenyButton: true,
+      confirmButtonText: "✅ Confirm Delete",
+      denyButtonText: "❌ Cancel",
+      icon: "warning",
+      customClass: {
+        popup: "swal2-popup-custom",
+        title: "swal2-title-custom",
+        confirmButton: "swal2-confirm-custom",
+        denyButton: "swal2-deny-custom",
+      },
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        router.delete(route("project.destroy", project.id));
+      } else if (result.isDenied) {
+        return;
+      }
+    });
   };
   return (
     <AuthenticatedLayout
@@ -67,11 +103,7 @@ export default function Index({
       }
     >
       <Head title="Project" />
-      {success && (
-        <div className="py-4 mx-2 px-4 bg-emerald-500   text-white rounded">
-          <p>{success}</p>
-        </div>
-      )}
+
       {/* {JSON.stringify(projects, undefined, 2)} */}
       <div className="py-12">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">

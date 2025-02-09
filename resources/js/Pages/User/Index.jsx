@@ -4,6 +4,7 @@ import { Head, Link, router } from "@inertiajs/react";
 import TextInput from "@/Components/TextInput";
 import SelectInput from "@/Components/SelectInput";
 import TableHeading from "@/Components/TableHeading";
+import Swal from "sweetalert2";
 export default function Index({
   errors,
   auth,
@@ -42,13 +43,48 @@ export default function Index({
 
     router.get(route("user.index", queryParams));
   };
+  if (success) {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      },
+    });
 
+    Toast.fire({
+      icon: "success",
+      title: `<span style="font-family: 'Poppins', sans-serif; font-size: 12px; color: green;">${success}</span>`,
+    });
+  }
   const deleteUser = (user) => {
-    if (!window.confirm("Are you sure you want to delete this user")) {
-      return;
-    }
-    router.delete(route("user.destroy", user.id));
+    Swal.fire({
+      title: `<span style="font-family: 'Poppins', sans-serif; font-size: 22px; font-weight: bold; color: #333;">Are you sure you want to delete this user?</span>`,
+      html: `<span style="font-family: 'Poppins', sans-serif; font-size: 18px; color: #555;">${user.name}</span>`,
+      showDenyButton: true,
+      confirmButtonText: "✅ Confirm Delete",
+      denyButtonText: "❌ Cancel",
+      icon: "warning",
+      customClass: {
+        popup: "swal2-popup-custom",
+        title: "swal2-title-custom",
+        confirmButton: "swal2-confirm-custom",
+        denyButton: "swal2-deny-custom",
+      },
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        router.delete(route("user.destroy", user.id));
+      } else if (result.isDenied) {
+        return;
+      }
+    });
   };
+
   return (
     <AuthenticatedLayout
       header={
@@ -71,7 +107,7 @@ export default function Index({
           <p>{success}</p>
         </div>
       )}
-      {/* {JSON.stringify(users, undefined, 2)} */}
+      {/* {JSON.stringify(auth, undefined, 2)} */}
       <div className="py-12">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
@@ -154,6 +190,7 @@ export default function Index({
                           <td className="px-3 py-2 text-nowrap">
                             {user.created_at}
                           </td>
+
                           <td className="px-3 py-2 text-nowrap">
                             <Link
                               href={route("user.edit", user.id)}
@@ -161,12 +198,14 @@ export default function Index({
                             >
                               Edit
                             </Link>
-                            <button
-                              onClick={(e) => deleteUser(user)}
-                              className="font-medium text-red-500 dark:text-red-500 hover:underline mx-1"
-                            >
-                              Delete
-                            </button>
+                            {auth.user.id !== user.id && (
+                              <button
+                                onClick={(e) => deleteUser(user)}
+                                className="font-medium text-red-500 dark:text-red-500 hover:underline mx-1"
+                              >
+                                Delete
+                              </button>
+                            )}
                           </td>
                         </tr>
                       ))

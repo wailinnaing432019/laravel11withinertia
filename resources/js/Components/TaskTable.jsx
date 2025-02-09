@@ -10,6 +10,9 @@ import {
   TASK_PRIORITY_CLASS_MAP,
   TASK_PRIORITY_TEXT_MAP,
 } from "@/Pages/constant";
+import alertify from "alertifyjs";
+import "alertifyjs/build/css/alertify.min.css";
+import Swal from "sweetalert2";
 export default function TaskTable({
   tasks,
   queryParams,
@@ -58,11 +61,26 @@ export default function TaskTable({
     }
   };
   const deleteTask = (task) => {
-    if (!window.confirm("Are you sure you want to delete this task?")) {
-      return;
-    }
-    router.delete(route("task.destroy", task.id));
+    Swal.fire({
+      title: `<span style="font-family: 'Poppins', sans-serif; font-size: 22px; font-weight: bold; color: #333;">Are you sure you want to delete this task?</span>`,
+      html: `<span style="font-family: 'Poppins', sans-serif; font-size: 18px; color: #555;">${task.name}</span>`,
+      showDenyButton: true,
+      confirmButtonText: "✅ Confirm Delete",
+      denyButtonText: "❌ Cancel",
+      icon: "warning",
+      customClass: {
+        popup: "swal2-popup-custom",
+        title: "swal2-title-custom",
+        confirmButton: "swal2-confirm-custom",
+        denyButton: "swal2-deny-custom",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        router.delete(route("task.destroy", task.id));
+      }
+    });
   };
+
   return (
     <>
       <div className="overflow-auto rounded-lg">

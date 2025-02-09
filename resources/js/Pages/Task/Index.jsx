@@ -1,7 +1,10 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
-
 import TaskTable from "@/Components/TaskTable";
+import alertify from "alertifyjs";
+import "alertifyjs/build/css/alertify.min.css";
+import { useEffect } from "react";
+import Swal from "sweetalert2";
 export default function Index({
   errors,
   auth,
@@ -10,6 +13,24 @@ export default function Index({
   success,
 }) {
   queryParams = queryParams || {};
+  if (success) {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      },
+    });
+
+    Toast.fire({
+      icon: "success",
+      title: `<span style="font-family: 'Poppins', sans-serif; font-size: 12px; color: green;">${success}</span>`,
+    });
+  }
 
   return (
     <AuthenticatedLayout
@@ -28,11 +49,7 @@ export default function Index({
       }
     >
       <Head title="Task" />
-      {success && (
-        <div className="py-4 mx-2 px-4 bg-emerald-500   text-white rounded">
-          <p>{success}</p>
-        </div>
-      )}
+
       {/* {JSON.stringify(tasks, undefined, 2)} */}
       <div className="py-12">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">

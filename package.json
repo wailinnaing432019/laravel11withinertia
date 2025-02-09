@@ -21,6 +21,8 @@
         "vite": "^6.0.11"
     },
     "dependencies": {
-        "@heroicons/react": "^2.2.0"
+        "@heroicons/react": "^2.2.0",
+        "alertifyjs": "^1.14.0",
+        "sweetalert2": "^11.16.0"
     }
 }
