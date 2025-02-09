@@ -9,7 +9,6 @@ export default function Pagination({ links, queryParams }) {
         if (!link.url) {
           return (
             <span
-              preserveScroll
               key={link.label}
               className="inline-block py-2 px-3 rounded-lg text-gray-500 text-xs cursor-not-allowed"
               dangerouslySetInnerHTML={{ __html: link.label }}

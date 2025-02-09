@@ -1,7 +1,7 @@
 export const PROJECT_STATUS_CLASS_MAP = {
-  pending: "bg-amber-500",
-  in_progress: "bg-blue-500",
-  completed: "bg-green-500",
+  pending: "bg-amber-500 px-3 py-2 rounded",
+  in_progress: "bg-blue-500 px-3 py-2 rounded",
+  completed: "bg-green-500 px-3 py-2 rounded",
 };
 export const PROJECT_STATUS_TEXT_MAP = {
   pending: "Pending",
@@ -9,9 +9,9 @@ export const PROJECT_STATUS_TEXT_MAP = {
   completed: "Completed",
 };
 export const TASK_STATUS_CLASS_MAP = {
-  pending: "bg-amber-500",
-  in_progress: "bg-blue-500",
-  completed: "bg-green-500",
+  pending: "bg-amber-500 px-3 py-2 rounded",
+  in_progress: "bg-blue-500 px-3 py-2 rounded",
+  completed: "bg-green-500 px-3 py-2 rounded",
 };
 export const TASK_STATUS_TEXT_MAP = {
   pending: "Pending",
@@ -19,9 +19,9 @@ export const TASK_STATUS_TEXT_MAP = {
   completed: "Completed",
 };
 export const TASK_PRIORITY_CLASS_MAP = {
-  low: "bg-indigo-500",
-  medium: "bg-blue-500",
-  high: "bg-red-500",
+  low: "bg-indigo-500 px-3 py-2 rounded",
+  medium: "bg-blue-500 px-3 py-2 rounded",
+  high: "bg-red-500 px-3 py-2 rounded",
 };
 export const TASK_PRIORITY_TEXT_MAP = {
   low: "Low",

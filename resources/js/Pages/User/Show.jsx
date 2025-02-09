@@ -6,7 +6,7 @@ import { Head, router } from "@inertiajs/react";
 export default function Show({
   errors,
   auth,
-  project,
+  user,
   tasks,
   queryParams = null,
 }) {
@@ -16,19 +16,19 @@ export default function Show({
     <AuthenticatedLayout
       header={
         <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-          Project - {project.name}
+          User - {user.name}
         </h2>
       }
     >
-      <Head title={`Project -"${project.name}"`} />
-      {/* <pre>{JSON.stringify(project, undefined, 2)}</pre> */}
+      <Head title={`User -"${user.name}"`} />
+      {/* <pre>{JSON.stringify(user, undefined, 2)}</pre> */}
       <div className="py-12">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
             <div className="p-6 text-gray-900 dark:text-gray-100">
               <div>
                 <img
-                  src={project.image_path}
+                  src={user.image_path}
                   alt=""
                   className="w-full h-64 object-cover"
                 />
@@ -36,42 +36,40 @@ export default function Show({
               <div className="grid gap-1 grid-cols-2 ">
                 <div>
                   <div className="mt-4">
-                    <label className="font-bold text-lg">Project ID</label>
-                    <p className="mt-1">{project.id}</p>
+                    <label className="font-bold text-lg">User ID</label>
+                    <p className="mt-1">{user.id}</p>
                   </div>
                   <div className="mt-4">
-                    <label className="font-bold text-lg">Project Name</label>
-                    <p className="mt-1">{project.name}</p>
+                    <label className="font-bold text-lg">User Name</label>
+                    <p className="mt-1">{user.name}</p>
                   </div>
                   <div className="mt-4">
-                    <label className="font-bold text-lg">Project Status</label>
-                    <p className="mt-1">{project.status}</p>
+                    <label className="font-bold text-lg">User Status</label>
+                    <p className="mt-1">{user.status}</p>
                   </div>
                   <div className="mt-4">
                     <label className="font-bold text-lg">Created By</label>
-                    <p className="mt-1">{project.createdBy.name}</p>
+                    <p className="mt-1">{user.createdBy.name}</p>
                   </div>
                 </div>
                 <div>
                   <div className="mt-4">
-                    <label className="font-bold text-lg">
-                      Project Deadline
-                    </label>
-                    <p className="mt-1">{project.due_date}</p>
+                    <label className="font-bold text-lg">Due Date</label>
+                    <p className="mt-1">{user.due_date}</p>
                   </div>
                   <div className="mt-4">
                     <label className="font-bold text-lg">Created Date</label>
-                    <p className="mt-1">{project.created_at}</p>
+                    <p className="mt-1">{user.created_at}</p>
                   </div>
                   <div className="mt-4">
                     <label className="font-bold text-lg">Updated Date</label>
-                    <p className="mt-1">{project.updatedBy.name}</p>
+                    <p className="mt-1">{user.updatedBy.name}</p>
                   </div>
                 </div>
               </div>
               <div className="mt-4">
                 <label className="font-bold text-lg">Description</label>
-                <p className="mt-1">{project.description}</p>
+                <p className="mt-1">{user.description}</p>
               </div>
             </div>
           </div>
@@ -84,8 +82,8 @@ export default function Show({
               <TaskTable
                 tasks={tasks}
                 queryParams={queryParams}
-                project_show="true"
-                project_id={project.id}
+                user_show="true"
+                user_id={user.id}
               />
             </div>
           </div>

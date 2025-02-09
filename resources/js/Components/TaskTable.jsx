@@ -57,6 +57,12 @@ export default function TaskTable({
       router.get(route("task.index", queryParams));
     }
   };
+  const deleteTask = (task) => {
+    if (!window.confirm("Are you sure you want to delete this task?")) {
+      return;
+    }
+    router.delete(route("task.destroy", task.id));
+  };
   return (
     <>
       <div className="overflow-auto rounded-lg">
@@ -178,18 +184,20 @@ export default function TaskTable({
                     {task.createdBy?.name || "Unknown"}
                   </td>
                   <td className="px-3 py-2">
-                    <Link
-                      href={route("task.edit", task.id)}
-                      className="font-medium text-blue-500 dark:text-blue-500 hover:underline mx-1"
-                    >
-                      Edit
-                    </Link>
-                    <Link
-                      href={route("task.destroy", task.id)}
-                      className="font-medium text-red-500 dark:text-red-500 hover:underline mx-1"
-                    >
-                      Delete
-                    </Link>
+                    <div className="flex">
+                      <Link
+                        href={route("task.edit", task.id)}
+                        className="font-medium text-blue-500 dark:text-blue-500 hover:underline mx-1"
+                      >
+                        Edit
+                      </Link>
+                      <button
+                        onClick={(e) => deleteTask(task)}
+                        className="font-medium text-red-500 dark:text-red-500 hover:underline mx-1"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))
