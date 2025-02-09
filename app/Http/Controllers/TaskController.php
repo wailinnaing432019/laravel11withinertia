@@ -2,65 +2,87 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TaskCRUDResource;
+use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+  /**
+   * Display a listing of the resource.
+   */
+  public function index()
+  {
+    $query = Task::query();
+
+    $sortFields = request("sort_field", "created_at");
+    $sortDirection = request("sort_direction", "desc");
+
+    if (request("name")) {
+
+      $query->where("name", "like", "%" . request("name") . "%");
+    }
+    if (request('status')) {
+      $query->where('status', request('status'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    // $tasks = $query->paginate(5)->onEachSide(1);
+    $tasks = $query->orderBy($sortFields, $sortDirection)->paginate(10)->appends(request()->query());
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreTaskRequest $request)
-    {
-        //
-    }
+    // dd(TaskResource::collection($tasks));
+    return inertia("Task/Index", [
+      'tasks' => TaskCRUDResource::collection($tasks),
+      "queryParams" => request()->query() ?: null,
+    ]);
+  }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Task $task)
-    {
-        //
-    }
+  /**
+   * Show the form for creating a new resource.
+   */
+  public function create()
+  {
+    //
+  }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Task $task)
-    {
-        //
-    }
+  /**
+   * Store a newly created resource in storage.
+   */
+  public function store(StoreTaskRequest $request)
+  {
+    //
+  }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateTaskRequest $request, Task $task)
-    {
-        //
-    }
+  /**
+   * Display the specified resource.
+   */
+  public function show(Task $task)
+  {
+    //
+  }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Task $task)
-    {
-        //
-    }
+  /**
+   * Show the form for editing the specified resource.
+   */
+  public function edit(Task $task)
+  {
+    //
+  }
+
+  /**
+   * Update the specified resource in storage.
+   */
+  public function update(UpdateTaskRequest $request, Task $task)
+  {
+    //
+  }
+
+  /**
+   * Remove the specified resource from storage.
+   */
+  public function destroy(Task $task)
+  {
+    //
+  }
 }
